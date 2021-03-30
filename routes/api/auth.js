@@ -2,6 +2,7 @@ const express = require('express')
 const {validationResult, check}  = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
 
 const route = express.Router()
 
@@ -11,7 +12,13 @@ const User = require('../../models/User')
 // token
 const generateToken = user => {
     return jwt.sign(
-        { _id: user._id, email: user.email, fullname : user.fullname}, 
+        { _id: user._id, email: user.email, fullname : user.fullname, typeUser : user.typeUser}, 
+        "SUPERSECRET555"
+        ) 
+}
+const generateTokenShopkeeper = user => {
+    return jwt.sign(
+        { _id: user._id, email: user.email, fullname : user.fullname, type : 'shopkeeper'}, 
         "SUPERSECRET555"
         ) 
 }
@@ -58,11 +65,13 @@ route.post('/register', validate , async (req,res) =>{
     const user = new User({
         fullname : req.body.fullname,
         email : req.body.email,
-        password : hash
+        password : hash,
+        typeUser : req.body.typeUser
     })
 
     try {
         const saveUser = await user.save()
+        
 
         // create and assign token
         const token = generateToken(user)
@@ -72,7 +81,8 @@ route.post('/register', validate , async (req,res) =>{
             data : {   
                 id : saveUser._id, 
                 fullname : saveUser.fullname, 
-                email:saveUser.email
+                email:saveUser.email,
+                typeUser : saveUser.typeUser
             },
             token
         })
@@ -108,5 +118,13 @@ route.post('/login' , loginvalidate , async (req,res) =>{
         .send({ success : true ,message : 'Logged in sucuessfully ', token})
 
 })
+
+// route.get('/auth/google', passport.authenticate('google', {
+//     scope : ['profile', 'email']
+// }))
+
+// route.get('/auth/google/callback', passport.authenticate('google'), (req,res) => {
+//     res.redirect('/')
+// })
 
 module.exports = route

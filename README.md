@@ -11,8 +11,8 @@ change variable BASE_URL of each files to ipv4 address // BASE_URL
 	client/src/Screen/FixTimeScreen.js
 	client/src/Screen/ResultScreen.js
 	client/src/Screen/SearchScreen.js
-	client/src/Screen/GetOrder.js
-	client/src/Screen/MatchScreen.js
+	client/src/Shop/GetOrder.js
+	client/src/Shop/MatchScreen.js
 }
 
 npm run dev // from Server Directory

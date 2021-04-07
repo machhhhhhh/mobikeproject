@@ -10,7 +10,12 @@ const userSchema = new mongoose.Schema({
     typeUser : {
         type : String,
         required : true
-    }
+    },
+    latitude : { type : String},
+    longitude : { type : String},
+    phone : {type : String},
+    score : {type : String}
+    
 
 })
 

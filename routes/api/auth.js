@@ -12,7 +12,7 @@ const User = require('../../models/User')
 // token
 const generateToken = user => {
     return jwt.sign(
-        { _id: user._id, email: user.email, fullname : user.fullname, typeUser : user.typeUser}, 
+        { _id: user._id, email: user.email, fullname : user.fullname,latitude : user.latitude,longitude : user.longitude, typeUser : user.typeUser}, 
         "SUPERSECRET555"
         ) 
 }
@@ -66,7 +66,11 @@ route.post('/register', validate , async (req,res) =>{
         fullname : req.body.fullname,
         email : req.body.email,
         password : hash,
-        typeUser : req.body.typeUser
+        typeUser : req.body.typeUser,
+        latitude: req.body.latitude,
+        longitude : req.body.longitude,
+        phone : req.body.phone,
+        score : req.body.score
     })
 
     try {
@@ -82,7 +86,11 @@ route.post('/register', validate , async (req,res) =>{
                 id : saveUser._id, 
                 fullname : saveUser.fullname, 
                 email:saveUser.email,
-                typeUser : saveUser.typeUser
+                typeUser : saveUser.typeUser,
+                latitude: saveUser.latitude,
+                longitude : saveUser.longitude,
+                phone : saveUser.phone,
+                score : saveUser.score
             },
             token
         })

@@ -21,6 +21,9 @@ const authRoutes = require('./routes/api/auth')
 const verifyToken = require('./routes/api/verifyToken')
 const detailRoutes = require('./routes/detail')
 const confirmRoutes = require('./routes/confirm')
+const resultRoute = require('./routes/result')
+const finishRoutes = require('./routes/finish')
+const calculateRoutes = require('./routes/calculator/calculate')
 
 // test route auth page
 route.get('/', (req,res) =>{
@@ -37,6 +40,9 @@ route.get('/profile', verifyToken , (req,res) => {
 route.use('/api/user' , authRoutes) // auth route
 route.use('/detail', detailRoutes) // search route
 route.use('/confirm', confirmRoutes)
+route.use('/result', resultRoute)
+route.use('/finish', finishRoutes)
+route.use('/calculate', calculateRoutes)
 
 // connect database
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.nabrg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,

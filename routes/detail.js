@@ -46,10 +46,35 @@ route.get('/', async (req,res) => {
 
 })
 
+route.get('/detailId', async (req,res) => {
+
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors : errors.array()})
+    }
+    
+   const detail =  await Detail.find()
+
+   for(let i=0 ; i< detail.length; i++) {
+       if (i== 0) {
+           const data = detail[i]
+            res.send({ success : true ,message : 'Get Order', data})
+       }
+   }
+
+   
+  
+    if (!detail) return res.status(404).send({ success : false ,message : 'Not have the order'})
+
+    
+
+})
+
 
 route.post('/remove', async (req,res) => {
 
-     await Detail.find().remove()
+    await Detail.find().deleteMany()
 
    
     res.send({success : true, message : 'Remove Item Done'})
